@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import testStore from '../../../../store/testStore';
-import { components } from './NumOfComponents';
+import { components, componentByFilter } from './NumOfComponents';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CommonDragWrap from './CommonDragWrap';
 import option from '../../option.json';
@@ -72,7 +72,8 @@ const ButtonContainer = () => {
           locationLeft,
           locationTop,
           componentNum,
-          id: Math.random().toString()
+          id: Math.random().toString(),
+          filterId: componentByFilter[componentNum]
         },
         userKey: selectUser
       });
@@ -135,7 +136,8 @@ const ButtonContainer = () => {
           onMouseDown={(e) => MakeItem(e, i)}
           onClick={() => AddComponent(i)}
         >
-          {components[i]}
+          {/* {components[i]} */}
+          {i}
         </UserButton>
       ))}
     </Wrap>

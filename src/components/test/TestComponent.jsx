@@ -9,6 +9,7 @@ import { useEffect, useMemo } from 'react';
 import ButtonContainer from './components/common/ButtonContainer';
 import { components } from './components/common/NumOfComponents';
 import option from './option.json';
+import FilterContainer from './components/common/FilterContainer';
 const TestComponent = () => {
   const { setStoreState, selectUser, copyUsers } = testStore();
 
@@ -34,7 +35,7 @@ const TestComponent = () => {
 
   return (
     <Wrap>
-      <UserContainer />
+      <FilterContainer />
       <ItemContainer id={option.BUILD_TOOL_CONTAINER_ID}>
         {viewUser?.map((item) => (
           <CommonDragItem
@@ -51,6 +52,7 @@ const TestComponent = () => {
         ))}
       </ItemContainer>
       <ButtonContainer />
+      <UserContainer />
     </Wrap>
   );
 };
@@ -60,6 +62,16 @@ const Wrap = styled.div`
   gap: 20px;
   user-select: none;
   padding: 20px;
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+  div {
+    box-sizing: border-box;
+  }
 `;
 
 const ItemContainer = styled.div`
