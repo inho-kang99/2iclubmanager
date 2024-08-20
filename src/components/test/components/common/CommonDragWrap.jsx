@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import option from '../../option.json';
 
 const CommonDragWrap = styled.div.attrs((props) => ({
   style: {

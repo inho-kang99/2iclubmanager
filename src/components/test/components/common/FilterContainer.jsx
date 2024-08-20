@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import testStore from '../../../../store/testStore';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import CommonRadioSelect from './CommonRadioSelect';
 
 const Wrap = styled.div`
@@ -22,7 +22,6 @@ const FilterContainer = () => {
     copyUsers[selectUser]?.forEach((i) => {
       let idArr = i?.filterId?.split('-');
       idArr.forEach((j) => {
-        console.log(j);
         if (!arr.includes(j)) {
           arr.push(j);
         }
@@ -81,7 +80,14 @@ const filterByNumber = {
       </option>
     </SelectBox>
   ),
-  2: <DateBox placeholder="날짜" />,
-  3: <Radio />
+  2: <DateBox />,
+  3: (
+    <SelectBox>
+      <option disabled hidden selected>
+        볼 구종
+      </option>
+    </SelectBox>
+  ),
+  4: <Radio />
 };
 export default FilterContainer;
