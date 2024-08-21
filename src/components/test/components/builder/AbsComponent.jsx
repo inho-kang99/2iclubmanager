@@ -42,11 +42,11 @@ const ZoneContainer = styled.div`
 
 const StanceLabel = styled.span`
   border: 1px solid #c8cace;
-  width: 20px;
+  width: 30px;
   height: 100%;
   white-space: pre-wrap;
   background-color: #d9d9d9;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   display: flex;
   justify-content: center;

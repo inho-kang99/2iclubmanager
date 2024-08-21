@@ -1,11 +1,12 @@
+import { useEffect, useMemo } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from './firebase';
-
+import './test.css';
 import styled from 'styled-components';
-import CommonDragItem from './components/common/CommonDragItem';
 import testStore from '../../store/testStore';
+
+import CommonDragItem from './components/common/CommonDragItem';
 import UserContainer from './components/common/UserContainer';
-import { useEffect, useMemo } from 'react';
 import ButtonContainer from './components/common/ButtonContainer';
 import { components } from './components/common/NumOfComponents';
 import option from './option.json';
@@ -43,7 +44,6 @@ const TestComponent = () => {
             locationLeft={item?.locationLeft}
             locationTop={item?.locationTop}
             item={item}
-            lastList={viewUser}
             userKey={selectUser}
             id={item?.id}
           >
@@ -75,7 +75,7 @@ const Wrap = styled.div`
 `;
 
 const ItemContainer = styled.div`
-  width: 1200px;
+  width: 1000px;
   height: 900px;
   border: 1px solid black;
   position: relative;

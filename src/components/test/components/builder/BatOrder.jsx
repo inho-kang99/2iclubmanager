@@ -3,7 +3,7 @@ import strikezone from '../images/strikezoneFrame.png';
 
 // 타석별 데이터를 props로 받아서 표출
 const BatOrder = () => {
-  const BallRows = [1, 2, 3, 4, 5, 6];
+  const BallRows = [1, 2, 3, 4, 5, 6, 7];
   return (
     <Wrap>
       <div className="row">
@@ -43,7 +43,7 @@ const BatOrder = () => {
 export default BatOrder;
 
 const Wrap = styled.div`
-  width: 186px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   border: 1px solid #c8cace;
@@ -71,7 +71,6 @@ const Wrap = styled.div`
     }
   }
   .title {
-    border: 1px solid #c8cace;
     border-bottom: 2px solid #c8cace;
   }
 

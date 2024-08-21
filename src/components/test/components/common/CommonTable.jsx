@@ -41,7 +41,11 @@ const CommonTable = ({ options = dummyTableOptions, data = dummyData }) => {
 export default CommonTable;
 
 const Wrap = styled.table`
-  min-width: 400px;
+  box-sizing: border-box;
+  min-width: 333px;
+  border: 1px solid black;
+  thead {
+  }
   th {
     background-color: #c8cace;
   }
