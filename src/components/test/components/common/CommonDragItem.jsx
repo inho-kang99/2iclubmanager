@@ -125,10 +125,10 @@ const CommonDragItem = ({
       $top={locationTop}
       ref={wrapRef}
     >
+      <Container>{children}</Container>
       <IconBox ref={removeRef} onClick={RemoveItem}>
         <CrossIcon />
       </IconBox>
-      <Container>{children}</Container>
     </CommonDragWrap>
   );
 };
@@ -144,8 +144,8 @@ const Container = styled.div`
 
 const IconBox = styled.span`
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 2px;
+  top: 2px;
   cursor: pointer;
 `;
 

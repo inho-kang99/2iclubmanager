@@ -4,7 +4,8 @@ const CommonDragWrap = styled.div.attrs((props) => ({
   style: {
     top: `${props.$top}px`,
     left: `${props.$left}px`,
-    zIndex: props.$mouseDown ? 10 : 6
+    zIndex: props.$mouseDown ? 10 : 6,
+    opacity: props.$blur ? 0.6 : 1
   }
 }))`
   color: #222;
@@ -13,11 +14,7 @@ const CommonDragWrap = styled.div.attrs((props) => ({
   justify-content: center;
   flex-direction: column;
   position: absolute;
-  padding: 30px;
   background-color: white;
-  border: 1px solid black;
-  opacity: 0.8;
-  border-radius: 16px;
   gap: 10px;
   overflow: hidden;
 `;

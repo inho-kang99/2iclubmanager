@@ -124,6 +124,7 @@ const ButtonContainer = () => {
         <CommonDragWrap
           ref={dragRef}
           $mouseDown={mouseDown}
+          $blur={mouseDown}
           $left={wrapLeft}
           $top={wrapTop}
         >

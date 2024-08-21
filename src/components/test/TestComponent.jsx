@@ -77,7 +77,6 @@ const Wrap = styled.div`
 const ItemContainer = styled.div`
   width: 1200px;
   height: 900px;
-  border-radius: 20px;
   border: 1px solid black;
   position: relative;
   overflow: hidden;
