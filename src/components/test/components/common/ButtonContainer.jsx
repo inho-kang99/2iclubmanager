@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 import testStore from '../../../../store/testStore';
-import { components, componentByFilter } from './NumOfComponents';
+import { componentById } from './NumOfComponents';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CommonDragWrap from './CommonDragWrap';
 import option from '../../option.json';
 import toast from 'react-hot-toast';
+import BuilderDatas from '../builder/BuilderDatas';
 
 const Wrap = styled.div`
   padding: 20px;
   display: flex;
+  min-width: 140px;
   flex-direction: column;
   gap: 10px;
   border: 1px solid black;
@@ -27,25 +29,26 @@ const UserButton = styled.div`
 `;
 
 const ButtonContainer = () => {
-  const { selectUser, addItem } = testStore();
+  const { addItem } = testStore();
   const [mouseDown, setMouseDown] = useState(false);
-  const [componentNum, setComponentNum] = useState(1);
+  const [clickComponent, setClickComponent] = useState(1);
   const [wrapLeft, setWrapLeft] = useState(0);
   const [wrapTop, setWrapTop] = useState(0);
   const dragRef = useRef();
+  const { components = [] } = BuilderDatas();
 
-  const MakeItem = (e, componentNum) => {
+  const MakeItem = (e, clickComponent) => {
     setWrapLeft(e.clientX - option.DRAG_ITEM_WIDTH / 2);
     setWrapTop(e.clientY - option.DRAG_ITEM_HEIGHT / 2);
-    setComponentNum(componentNum);
+    setClickComponent(clickComponent);
     setMouseDown(true);
   };
 
   const AddComponent = useCallback(
-    (componentNum) => {
+    (clickComponent) => {
       const container = document.getElementById(option.BUILD_TOOL_CONTAINER_ID);
-      let locationLeft = wrapLeft - container.offsetLeft;
-      let locationTop = wrapTop - container.offsetTop;
+      let positionX = Math.floor(wrapLeft - container.offsetLeft);
+      let positionY = Math.floor(wrapTop - container.offsetTop);
 
       const maxLeft =
         container.getBoundingClientRect().width -
@@ -54,31 +57,29 @@ const ButtonContainer = () => {
         container.getBoundingClientRect().height -
         dragRef.current.getBoundingClientRect().height;
 
-      if (locationLeft < 0) {
-        locationLeft = 0;
+      if (positionX < 0) {
+        positionX = 0;
       }
 
-      if (locationLeft > maxLeft) {
-        locationLeft = maxLeft;
+      if (positionX > maxLeft) {
+        positionX = maxLeft;
       }
-      if (locationTop < 0) {
-        locationTop = 0;
+      if (positionY < 0) {
+        positionY = 0;
       }
-      if (locationTop > maxTop) {
-        locationTop = maxTop;
+      if (positionY > maxTop) {
+        positionY = maxTop;
       }
+
+      const item = { ...clickComponent };
+      item.positionX = positionX;
+      item.positionY = positionY;
+
       addItem({
-        item: {
-          locationLeft,
-          locationTop,
-          componentNum,
-          id: Math.random().toString(),
-          filterId: componentByFilter[componentNum]
-        },
-        userKey: selectUser
+        item
       });
     },
-    [addItem, selectUser, wrapLeft, wrapTop]
+    [addItem, wrapLeft, wrapTop]
   );
 
   useEffect(() => {
@@ -87,8 +88,12 @@ const ButtonContainer = () => {
 
     const moveHandler = (e) => {
       if (mouseDown) {
-        setWrapLeft(e.clientX - item.getBoundingClientRect().width / 2);
-        setWrapTop(e.clientY - item.getBoundingClientRect().height / 2);
+        setWrapLeft(
+          Math.floor(e.clientX - item.getBoundingClientRect().width / 2)
+        );
+        setWrapTop(
+          Math.floor(e.clientY - item.getBoundingClientRect().height / 2)
+        );
       }
     };
     const upHandler = (e) => {
@@ -103,7 +108,7 @@ const ButtonContainer = () => {
           e.clientY <=
             container.offsetLeft + container.getBoundingClientRect().height;
         if (xCheck && yCheck) {
-          AddComponent(componentNum);
+          AddComponent(clickComponent);
         } else {
           toast.error('놓을 수 없습니다.');
         }
@@ -116,7 +121,7 @@ const ButtonContainer = () => {
       document.removeEventListener('mousemove', moveHandler);
       document.removeEventListener('mouseup', upHandler);
     };
-  }, [AddComponent, mouseDown, componentNum]);
+  }, [AddComponent, mouseDown, clickComponent]);
 
   return (
     <Wrap>
@@ -128,17 +133,16 @@ const ButtonContainer = () => {
           $left={wrapLeft}
           $top={wrapTop}
         >
-          {components[componentNum]}
+          {componentById[clickComponent?.componentCode]}
         </CommonDragWrap>
       )}
-      {Object.keys(components).map((i) => (
+      {components.map((i) => (
         <UserButton
-          key={`${i}addbutton`}
+          key={`${i?.componentCode}addbutton`}
           onMouseDown={(e) => MakeItem(e, i)}
           onClick={() => AddComponent(i)}
         >
-          {/* {components[i]} */}
-          {i}
+          {i?.componentCode}
         </UserButton>
       ))}
     </Wrap>

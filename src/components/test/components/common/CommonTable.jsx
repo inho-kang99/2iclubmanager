@@ -18,11 +18,13 @@ const CommonTable = ({ options = dummyTableOptions, data = dummyData }) => {
         ))}
       </colgroup>
       <thead>
-        {options.map((item, index) => (
-          <th scope="col" key={`${index}tableHeadKey`}>
-            {item.headLabel}
-          </th>
-        ))}
+        <tr>
+          {options.map((item, index) => (
+            <th scope="col" key={`${index}tableHeadKey`}>
+              {item.headLabel}
+            </th>
+          ))}
+        </tr>
       </thead>
       <tbody>
         {data.map((fItem, fIndex) => (

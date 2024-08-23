@@ -1,6 +1,3 @@
-import { useEffect, useMemo } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from './firebase';
 import './test.css';
 import styled from 'styled-components';
 import testStore from '../../store/testStore';
@@ -8,46 +5,39 @@ import testStore from '../../store/testStore';
 import CommonDragItem from './components/common/CommonDragItem';
 import UserContainer from './components/common/UserContainer';
 import ButtonContainer from './components/common/ButtonContainer';
-import { components } from './components/common/NumOfComponents';
+import { componentById } from './components/common/NumOfComponents';
 import option from './option.json';
 import FilterContainer from './components/common/FilterContainer';
+import BuilderDatas from './components/builder/BuilderDatas';
+import { useEffect } from 'react';
+
 const TestComponent = () => {
-  const { setStoreState, selectUser, copyUsers } = testStore();
+  const { copyPageComponents, setStoreState } = testStore();
+  const { pageData = {} } = BuilderDatas();
 
   useEffect(() => {
-    const docRef = doc(db, 'drag', `info`);
-    const unsubscribe = onSnapshot(docRef, async (querySnapshot) => {
-      if (querySnapshot.exists()) {
-        const data = querySnapshot.data();
-        Object.keys(data).forEach((target) => {
-          setStoreState({ target, value: data[target] });
-        });
-        setStoreState({ target: 'copyUsers', value: data.users });
-      } else {
-        console.log('noDocs');
-      }
-    });
-    return () => unsubscribe();
-  }, [setStoreState]);
-
-  const viewUser = useMemo(() => {
-    return copyUsers[selectUser];
-  }, [selectUser, copyUsers]);
+    if (pageData.componentList) {
+      setStoreState({
+        target: 'copyPageComponents',
+        value: pageData.componentList
+      });
+    }
+  }, [setStoreState, pageData]);
 
   return (
     <Wrap>
       <FilterContainer />
       <ItemContainer id={option.BUILD_TOOL_CONTAINER_ID}>
-        {viewUser?.map((item) => (
+        {copyPageComponents?.map((item, index) => (
           <CommonDragItem
-            key={`${item?.id}${selectUser}userComponent`}
-            locationLeft={item?.locationLeft}
-            locationTop={item?.locationTop}
+            key={`${index}userComponent`}
+            positionX={item?.positionX}
+            positionY={item?.positionY}
             item={item}
-            userKey={selectUser}
-            id={item?.id}
+            pageComponentId={item?.pageComponentId}
+            index={index}
           >
-            {components[item?.componentNum]}
+            {componentById[item?.componentCode]}
           </CommonDragItem>
         ))}
       </ItemContainer>

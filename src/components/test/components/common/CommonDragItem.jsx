@@ -21,10 +21,10 @@ export const CrossIcon = ({ fill }) => (
 
 const CommonDragItem = ({
   children,
-  locationLeft,
-  locationTop,
-  userKey,
-  id
+  positionX,
+  positionY,
+  pageComponentId,
+  index
 }) => {
   const { setLocation, removeItem } = testStore();
   const wrapRef = useRef();
@@ -41,7 +41,7 @@ const CommonDragItem = ({
   });
 
   const RemoveItem = () => {
-    removeItem({ id, userKey });
+    removeItem({ pageComponentId, index });
   };
 
   useEffect(() => {
@@ -78,8 +78,8 @@ const CommonDragItem = ({
           const maxX = container.width - wrap.width;
           const maxY = container.height - wrap.height;
 
-          let moveXValue = locationLeft + moveX;
-          let moveYValue = locationTop + moveY;
+          let moveXValue = positionX + moveX;
+          let moveYValue = positionY + moveY;
           if (moveXValue < 0) {
             moveXValue = 0;
           }
@@ -92,7 +92,7 @@ const CommonDragItem = ({
           if (moveYValue > maxY) {
             moveYValue = maxY;
           }
-          setLocation({ id, userKey, x: moveXValue, y: moveYValue });
+          setLocation({ index, x: moveXValue, y: moveYValue });
         }
       }
     };
@@ -116,13 +116,13 @@ const CommonDragItem = ({
     return () => {
       instance?.removeEventListener('mousedown', downHandler);
     };
-  }, [locationLeft, locationTop, id, userKey, setLocation]);
+  }, [positionX, positionY, index, setLocation]);
 
   return (
     <CommonDragWrap
       $mouseDown={mouseDown}
-      $left={locationLeft}
-      $top={locationTop}
+      $left={positionX}
+      $top={positionY}
       ref={wrapRef}
     >
       <Container>{children}</Container>
